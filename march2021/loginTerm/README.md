@@ -3,6 +3,7 @@ A Simple C++ code by Kanayo
 This was really made just to practice File I/O.
 This simple code uses various simple c++ functions.
 </br>
+</br>
 <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/800px-ISO_C%2B%2B_Logo.svg.png" alt="drawing" width="100"/>
 </br>
 
