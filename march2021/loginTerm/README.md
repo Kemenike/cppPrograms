@@ -18,9 +18,5 @@ an error message.
     it gives a congrats message. If not they have 3 attempts to get the correct
     password. After the three attemps they will be met with another error message.
 
-## Installation
-First install the register.exe then add a folder in the same directory
-called "logins".
-
 ## Source Code
 If you'd like to check out the source code. See register.cpp
