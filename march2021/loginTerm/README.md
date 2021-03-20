@@ -21,3 +21,6 @@ an error message.
 ## Installation
 First install the register.exe then add a folder in the same directory
 called "logins".
+
+## Source Code
+If you'd like to check out the source code. See register.cpp
