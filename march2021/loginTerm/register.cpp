@@ -4,8 +4,8 @@
 */
 
 //Description
-    //This code is just a demo code to display a rudimentary terminal login system using
-        //text files to store login info.
+//This code is just a demo code to display a rudimentary terminal login system using
+//text files to store login info.
 
 //CPP Libraries
 /*
@@ -22,8 +22,10 @@
 #include <fstream>
 #include <string>
 
-#define LOWERLIMIT 1
-#define UPPERLIMIT 2
+#define DIR "logins\\"
+#define FILE_FORMAT ".txt"
+#define OPTIONS_LOWERLIMIT 1
+#define OPTIONS_UPPERLIMIT 2
 
 using namespace std;
 
@@ -35,7 +37,7 @@ int checkSelection(string selection)
     conversion = stoi(selection);
     //IF statement configured like this allows easy changes to upper limit and
     //lower limit of the options.
-    if ((conversion < LOWERLIMIT) || (conversion > UPPERLIMIT))
+    if ((conversion < OPTIONS_LOWERLIMIT) || (conversion > OPTIONS_UPPERLIMIT))
     {
         return -1;
     }
@@ -58,42 +60,97 @@ bool checkValidity(string selection)
     return true;
 }
 
-void newRegister()
+void new_register()
 {
     //UNDER CONSTRUCTION
 
     //This function createse a file with the username and password given
-    //If the username exists it will return an error to the user.
+    // [NOT IMPLEMENTED] If the username exists it will return an error to the user.
     string userName;
     string password;
     string fileName;
-    ofstream newLoginDetails;
-    ifstream userNameCheck;
+    ofstream userFile;
+    //ifstream userNameCheck;
 
     cout << "Please enter your Username: ";
     cin >> userName;
     cout << "Please enter your Password: ";
     cin >> password;
 
-    fileName = userName + ".txt";
-}
+    fileName = DIR + userName + FILE_FORMAT;
 
+    userFile.open(fileName);
+    if (userFile.is_open())
+    {
+        userFile << password;
+        userFile.close();
+    }
+}
+/*      --- UNUSED UNTILL USER CHECK IS IMPLEMENTED --- 
 bool userExists(ifstream user)
 {
     //UNDER CONSTRUCTION
 
     //This will check if there is already a user by that name.
-    //Maybe make a new file to hold all of this? SQL database?
+        //Maybe make a new file to hold all of this? SQL database?
     if (user.is_open())
     {
         return true;
     }
     return false;
 }
+*/
+void validate_login()
+{
+    bool validator = false;
+    int attemptCOUNT = 0;
+    int attemptMAX = 3;
+    ifstream userFile;
+    string validate_password;
+    string file_name;
+    string userName, password;
+
+    cout << "Please enter your Username: ";
+    cin >> userName;
+    cout << "Password: ";
+    cin >> password;
+
+    file_name = DIR + userName + FILE_FORMAT;
+
+    userFile.open(file_name);
+    if (userFile.is_open())
+    {
+        userFile >> validate_password;
+        do
+        {
+            attemptCOUNT++;
+            if (password == validate_password)
+            {
+                cout << "Welcome back " << userName << endl;
+                validator = true;
+            }
+            else
+            {
+                cout << "Invalid Login Credentials... Try again. ";
+                cout << "--> Attempts Remaining: " << attemptMAX - attemptCOUNT + 1 << endl;
+                cout << "Please enter your password: ";
+                cin >> password;
+            }
+        } while (attemptCOUNT < attemptMAX && validator == false);
+        if (!validator)
+        {
+            cout << "Max login attempts reached. Please try again later." << endl;
+        }
+        userFile.close();
+    }
+    else
+    {
+        cout << "No User found, please register using Option 1.\n";
+    }
+}
 
 int main()
 {
-
     //User Interface I/O
 
     string selection;
@@ -112,6 +169,16 @@ int main()
     } while (!selectionSuccess);
 
     selection_convert = checkSelection(selection);
+
+    switch (selection_convert)
+    {
+    case 1:
+        new_register();
+        break;
+    case 2:
+        validate_login();
+        break;
+    };
 
     return 0;
 }
